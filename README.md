@@ -16,6 +16,10 @@ Your first task should be getting categories to show up on the page. Then, give 
 
 From there, think about what the user wants to do next. What will they see and do? How will the application respond to their interactions?
 
+1. Show Categories
+2. User select categories.
+3. Select Questions.
+
 ## Requirements
 
 - A user can select a category and take a quiz in that category. A quiz should have at least 10 questions in it. 

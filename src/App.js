@@ -1,23 +1,30 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useState, useEffect } from "react";
+import axios from 'axios';
+
 
 function App() {
+  const [triviaCategories, setTriviaCategory] = React.useState([]);
+
+  useEffect(() => {
+    axios.get('https://opentdb.com/api_category.php')
+    .then((res) => {
+      const newCategories = res.data.trivia_categories.map(obj => obj.name);
+      
+    setTriviaCategory(newCategories);
+  });
+}, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Trivia Categories</h1>
+      <div className="grid">
+        <ul>
+          { triviaCategories.map(trivCat => (
+            <li>{trivCat}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

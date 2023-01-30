@@ -18,7 +18,12 @@ From there, think about what the user wants to do next. What will they see and d
 
 1. Show Categories
 2. User select categories.
-3. Select Questions.
+3. FOR THURSDAY:
+  * Selectable Categories
+  * List of Questions per Question with Answers
+    * Ideally one question at a time
+      * Multiple choice answers
+    *  
 
 ## Requirements
 

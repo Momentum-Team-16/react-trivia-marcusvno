@@ -51,6 +51,7 @@ function QuizGame({setTitle, setPlaying, currentScore, setCurrentScore}){
   if(selectedCategory){
     return(
       <TriviaQuestions 
+        setTitle={setTitle}
         selectedCategory={selectedCategory}
         currentScore={currentScore}
         setScore={setCurrentScore}
@@ -73,7 +74,7 @@ function QuizGame({setTitle, setPlaying, currentScore, setCurrentScore}){
 
 }
 
-function TriviaQuestions({selectedCategory, currentScore, setScore, setSelectedCategory, setPlaying}){
+function TriviaQuestions({setTitle, selectedCategory, currentScore, setScore, setSelectedCategory, setPlaying}){
   const [currentQuestion, setCurrentQuestion] = useState([])
   const [questionIndex, setQuestionIndex] = useState(0)
   
@@ -94,6 +95,7 @@ function TriviaQuestions({selectedCategory, currentScore, setScore, setSelectedC
   return(
     currentQuestion.length > 0 && (
       <QuestionList 
+        setTitle={setTitle}
         currentQuestion={currentQuestion}
         currentScore={currentScore}
         setScore={setScore}
@@ -110,7 +112,7 @@ function TriviaQuestions({selectedCategory, currentScore, setScore, setSelectedC
 
 }
 
-function QuestionList({setPlaying, currentQuestion, currentScore, setScore, questionIndex, setQuestionIndex, setSelectedCategory} ){
+function QuestionList({setTitle, setPlaying, currentQuestion, currentScore, setScore, questionIndex, setQuestionIndex, setSelectedCategory} ){
 
   // console.log(setSelectedCategory)
 
@@ -126,6 +128,7 @@ function QuestionList({setPlaying, currentQuestion, currentScore, setScore, ques
     setPlaying(null);
     return (
       <QuizEnd 
+        setTitle={setTitle}
         currentScore={currentScore} 
         setScore={setScore}
         setSelectedCategory={setSelectedCategory}/>
@@ -147,9 +150,10 @@ function QuestionList({setPlaying, currentQuestion, currentScore, setScore, ques
 
 }
 
-function QuizEnd({currentScore, setSelectedCategory, setScore}){
+function QuizEnd({setTitle, currentScore, setSelectedCategory, setScore}){
 
   const handleClick = () => {
+    setTitle("Trivia Bonzana!")
     setSelectedCategory(null)
     setScore(0)
   }

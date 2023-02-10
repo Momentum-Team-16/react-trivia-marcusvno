@@ -16,21 +16,20 @@ function App() {
   return (
     <div>
       <h1>{title}</h1>
-        <div className="wrapper">
-          <QuizGame 
-            setTitle={setTitle}
-            isPlaying={isPlaying}
-            setPlaying={setPlaying}
-            currentScore={currentScore}
-            setCurrentScore={setCurrentScore}/>
-            
-        </div>
+      <div className="main">
+        <QuizGame 
+          setTitle={setTitle}
+          setPlaying={setPlaying}
+          currentScore={currentScore}
+          setCurrentScore={setCurrentScore}/>
+      </div>    
+      
       <footer>{isPlaying ? (`Score: ${currentScore}`) : null}</footer>
     </div>
   );
 }
 
-function QuizGame({setTitle, isPlaying, setPlaying, currentScore, setCurrentScore}){
+function QuizGame({setTitle, setPlaying, currentScore, setCurrentScore}){
 
   const [triviaCategories, setTriviaCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -77,7 +76,7 @@ function QuizGame({setTitle, isPlaying, setPlaying, currentScore, setCurrentScor
 function TriviaQuestions({selectedCategory, currentScore, setScore, setSelectedCategory, setPlaying}){
   const [currentQuestion, setCurrentQuestion] = useState([])
   const [questionIndex, setQuestionIndex] = useState(0)
-
+  
   useEffect(() => {
     axios
       .get(`https://opentdb.com/api.php?amount=10&category=${selectedCategory}`)
@@ -111,7 +110,9 @@ function TriviaQuestions({selectedCategory, currentScore, setScore, setSelectedC
 
 }
 
-function QuestionList({setPlaying,currentQuestion, currentScore, setScore, questionIndex, setQuestionIndex}, setSelectedCategory, ){
+function QuestionList({setPlaying, currentQuestion, currentScore, setScore, questionIndex, setQuestionIndex, setSelectedCategory} ){
+
+  // console.log(setSelectedCategory)
 
   const handleClick = (a) => {
      if(he.decode(a)=== currentQuestion[questionIndex].correctAnswer){
@@ -123,33 +124,43 @@ function QuestionList({setPlaying,currentQuestion, currentScore, setScore, quest
 
   if(questionIndex > currentQuestion.length-1){
     setPlaying(null);
-    return <QuizEnd currentScore={currentScore} setSelectedCategory={setSelectedCategory}/>
+    return (
+      <QuizEnd 
+        currentScore={currentScore} 
+        setScore={setScore}
+        setSelectedCategory={setSelectedCategory}/>
+    )
   }
 
-  
-
   return(
-    <div className="question">
+    <div className="quizzing">
       <div>
         <h2 key={questionIndex}>{currentQuestion[questionIndex].question}</h2>
-        <ul className="answers">
+        <div className="answer-order">
           {currentQuestion[questionIndex].answers.map((a) =>(
-            <li onClick={()=>{handleClick(a)}}>{he.decode(a)}</li>
+            <div className="category-answer" onClick={()=>{handleClick(a)}}>{he.decode(a)}</div>
           ) )}
-        </ul>
+        </div>
       </div>
     </div>
   )
 
 }
 
-function QuizEnd({currentScore, setSelectedCategory}){
+function QuizEnd({currentScore, setSelectedCategory, setScore}){
+
+  const handleClick = () => {
+    setSelectedCategory(null)
+    setScore(0)
+  }
 
   return(
     <div>
       <h1 className="congrats">Congraulations!</h1>
-      <h1 className="endscore">Score: {currentScore}</h1>
-      <button onClick={() => setSelectedCategory(null)}>Play Again?</button>
+      <h1 className="endscore">You Scored: {currentScore}!</h1>
+      <div className="playagain">
+        <button className="category-answer playagain" onClick={handleClick}>Play Again?</button>
+      </div>
     </div>
   )
 }

@@ -1,28 +1,39 @@
 import './App.css';
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import { categoryRandomizer } from './components/categoryRandomizer.js';
-import { requestQuestion } from './components/requestQuestion'
+import he, {decode} from "he";
+import shuffle from "lodash/shuffle";
 
 
 function App() {
-  
+  const [isPlaying, setPlaying] = useState(null);
   const [title, setTitle] = useState(["Trivia Bonanza!"]);
+  const [currentScore, setCurrentScore] = useState(0);
 //  const [triviaGame, setTriviaGame] = useState(["Trivia Bonanza!"]);
+
+
 
   return (
     <div>
       <h1>{title}</h1>
-        <QuizGame 
-          setTitle={setTitle}/>
+        <div className="wrapper">
+          <QuizGame 
+            setTitle={setTitle}
+            isPlaying={isPlaying}
+            setPlaying={setPlaying}
+            currentScore={currentScore}
+            setCurrentScore={setCurrentScore}/>
+            
+        </div>
+      <footer>{isPlaying ? (`Score: ${currentScore}`) : null}</footer>
     </div>
   );
 }
 
-function QuizGame({setTitle}){
+function QuizGame({setTitle, isPlaying, setPlaying, currentScore, setCurrentScore}){
 
   const [triviaCategories, setTriviaCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
     axios.get('https://opentdb.com/api_category.php')
@@ -31,18 +42,113 @@ function QuizGame({setTitle}){
     });
   }, []);
 
+  const handleCatSelection = (e) => {
+    setSelectedCategory(e.id)
+    setPlaying(true)
+    setTitle(e.name)
+  }
+
+
+  if(selectedCategory && isPlaying){
+    return(
+      <TriviaQuestions 
+        selectedCategory={selectedCategory}
+        currentScore={currentScore}
+        setScore={setCurrentScore}
+        setSelectedCategory={setSelectedCategory}
+      />
+    )
+  }
+
   return (
     <div>
       <div className="grid">
-        <ul>
-          { triviaCategories.map(trivCat => (
-            <li>{trivCat}</li>
+          { triviaCategories.map(triviaCat => (
+            <div className="category-button" onClick={ () => (handleCatSelection(triviaCat))}  key={triviaCat.id}>{triviaCat.name}</div>
+
           ))}
-        </ul>
       </div>
     </div>
   );
 
+}
+
+function TriviaQuestions({selectedCategory, currentScore, setScore, setSelectedCategory}){
+  const [currentQuestion, setCurrentQuestion] = useState([])
+  const [questionIndex, setQuestionIndex] = useState(0)
+
+  useEffect(() => {
+    axios
+      .get(`https://opentdb.com/api.php?amount=10&category=${selectedCategory}`)
+      .then((response) => {
+        setCurrentQuestion(
+          response.data.results.map((obj) => ({
+            question: he.decode(obj.question),
+            correctAnswer: he.decode(obj.correct_answer),
+            answers: shuffle([obj.correct_answer, ...obj.incorrect_answers]),
+          }))
+        );
+      });
+  }, [selectedCategory]);
+
+  return(
+    currentQuestion.length > 0 && (
+      <QuestionList 
+        currentQuestion={currentQuestion}
+        currentScore={currentScore}
+        setScore={setScore}
+        questionIndex={questionIndex}
+        setQuestionIndex={setQuestionIndex}
+        setSelectedCategory={setSelectedCategory}/>
+
+    )
+  )
+
+ 
+
+
+}
+
+function QuestionList({currentQuestion, currentScore, setScore, questionIndex, setQuestionIndex}, setSelectedCategory){
+
+  const handleClick = (a) => {
+     if(he.decode(a)=== currentQuestion[questionIndex].correctAnswer){
+      setScore(currentScore+1)
+    }  
+    setQuestionIndex(questionIndex +1)
+    // console.log(questionIndex)
+  }
+
+  if(questionIndex > currentQuestion.length-1){
+    // console.log("END HIT")
+    return <QuizEnd currentScore={currentScore} setSelectedCategory={setSelectedCategory}/>
+  }
+
+  
+
+  return(
+    <div className="question">
+      <div>
+        <h2 key={questionIndex}>{currentQuestion[questionIndex].question}</h2>
+        <ul className="answers">
+          {currentQuestion[questionIndex].answers.map((a) =>(
+            <li onClick={()=>{handleClick(a)}}>{he.decode(a)}</li>
+          ) )}
+        </ul>
+      </div>
+    </div>
+  )
+
+}
+
+function QuizEnd({currentScore, setSelectedCategory}){
+  return(
+    <div>
+      <h1 className="congrats">Congraulations!</h1>
+      <h2>Score: {currentScore}</h2>
+      <button onClick={() => setSelectedCategory(null)}>Play Again?</button>
+    </div>
+  )
 }
 
 

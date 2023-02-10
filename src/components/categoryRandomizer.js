@@ -5,6 +5,7 @@ export const categoryRandomizer = (arr) => {
   for(let i=0; i<5; i++){
     const randomIndex = Math.floor(Math.random() * arr.length);
     item.push(arr[randomIndex]);
+    arr.splice(randomIndex, 1);
   }
   return item;
 }

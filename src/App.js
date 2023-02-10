@@ -2,33 +2,48 @@ import './App.css';
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { categoryRandomizer } from './components/categoryRandomizer.js';
+import { requestQuestion } from './components/requestQuestion'
 
 
 function App() {
-  const [triviaCategories, setTriviaCategories] = React.useState([]);
+  
+  const [title, setTitle] = useState(["Trivia Bonanza!"]);
+//  const [triviaGame, setTriviaGame] = useState(["Trivia Bonanza!"]);
+
+  return (
+    <div>
+      <h1>{title}</h1>
+        <QuizGame 
+          setTitle={setTitle}/>
+    </div>
+  );
+}
+
+function QuizGame({setTitle}){
+
+  const [triviaCategories, setTriviaCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   useEffect(() => {
     axios.get('https://opentdb.com/api_category.php')
     .then((res) => {
-      const newCategories = res.data.trivia_categories;
-      const randomCats = categoryRandomizer(newCategories);
-      console.log(randomCats);
-    setTriviaCategories(randomCats);
-  });
-}, []);
+      setTriviaCategories(res.data.trivia_categories);
+    });
+  }, []);
 
   return (
     <div>
-      <h1>Trivia Categories</h1>
       <div className="grid">
         <ul>
           { triviaCategories.map(trivCat => (
-            <li key={trivCat.id}>{trivCat.id} : {trivCat.name}</li>
+            <li>{trivCat}</li>
           ))}
         </ul>
       </div>
     </div>
   );
+
 }
+
 
 export default App;

@@ -49,13 +49,14 @@ function QuizGame({setTitle, isPlaying, setPlaying, currentScore, setCurrentScor
   }
 
 
-  if(selectedCategory && isPlaying){
+  if(selectedCategory){
     return(
       <TriviaQuestions 
         selectedCategory={selectedCategory}
         currentScore={currentScore}
         setScore={setCurrentScore}
         setSelectedCategory={setSelectedCategory}
+        setPlaying={setPlaying}
       />
     )
   }
@@ -73,7 +74,7 @@ function QuizGame({setTitle, isPlaying, setPlaying, currentScore, setCurrentScor
 
 }
 
-function TriviaQuestions({selectedCategory, currentScore, setScore, setSelectedCategory}){
+function TriviaQuestions({selectedCategory, currentScore, setScore, setSelectedCategory, setPlaying}){
   const [currentQuestion, setCurrentQuestion] = useState([])
   const [questionIndex, setQuestionIndex] = useState(0)
 
@@ -99,7 +100,8 @@ function TriviaQuestions({selectedCategory, currentScore, setScore, setSelectedC
         setScore={setScore}
         questionIndex={questionIndex}
         setQuestionIndex={setQuestionIndex}
-        setSelectedCategory={setSelectedCategory}/>
+        setSelectedCategory={setSelectedCategory}
+        setPlaying={setPlaying}/>
 
     )
   )
@@ -109,7 +111,7 @@ function TriviaQuestions({selectedCategory, currentScore, setScore, setSelectedC
 
 }
 
-function QuestionList({currentQuestion, currentScore, setScore, questionIndex, setQuestionIndex}, setSelectedCategory){
+function QuestionList({setPlaying,currentQuestion, currentScore, setScore, questionIndex, setQuestionIndex}, setSelectedCategory, ){
 
   const handleClick = (a) => {
      if(he.decode(a)=== currentQuestion[questionIndex].correctAnswer){
@@ -120,7 +122,7 @@ function QuestionList({currentQuestion, currentScore, setScore, questionIndex, s
   }
 
   if(questionIndex > currentQuestion.length-1){
-    // console.log("END HIT")
+    setPlaying(null);
     return <QuizEnd currentScore={currentScore} setSelectedCategory={setSelectedCategory}/>
   }
 
@@ -142,10 +144,11 @@ function QuestionList({currentQuestion, currentScore, setScore, questionIndex, s
 }
 
 function QuizEnd({currentScore, setSelectedCategory}){
+
   return(
     <div>
       <h1 className="congrats">Congraulations!</h1>
-      <h2>Score: {currentScore}</h2>
+      <h1 className="endscore">Score: {currentScore}</h1>
       <button onClick={() => setSelectedCategory(null)}>Play Again?</button>
     </div>
   )

@@ -15,7 +15,7 @@ function App() {
 
 
   return (
-    <div className="container">
+    <div className="flex-wrapper">
       <h1 className="title-header">{title}</h1>
         <div className="main">
           <QuizGame
@@ -24,9 +24,11 @@ function App() {
             currentScore={currentScore}
             setCurrentScore={setCurrentScore}
             setEnd={setEnd}/>
-      </div>
+        </div>
       
-      {isPlaying ? <footer> { isEnd ? null : `Score: ${currentScore}`} </footer> : <div className="menufooter"/>}
+      <footer className="footer">{isPlaying ? `Score: ${currentScore}` : null} </footer>
+
+      {/* {isPlaying ? <footer className="footer"> { isEnd ? null : `Score: ${currentScore}`} </footer> : <div className="footer"/>} */}
     </div>
   );
 }

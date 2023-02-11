@@ -1,5 +1,41 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
 .App {
   text-align: center;
+}
+
+h1 {
+  padding: 25px;
+  color: white;
+  background-color: teal;
+  margin-top: 0;
+  margin-bottom: 2px;
+  max-height: 2em;
+  font-size: 3em;
+}
+/* .container {
+  min-height: 100%;
+  position: relative;
+} */
+/* .title-header {
+  background:#ff0;
+  padding:10px;
+} */
+.main {
+  padding: 10px;
+  padding-bottom: 80px; /* Height of the footer */
+}
+.menufooter {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 80px; /* Height of the footer */
+  background: teal;
 }
 
 .category-button {
@@ -34,22 +70,13 @@
   flex-wrap: wrap;
   margin-bottom: 40px;
   margin-top: 15px;
+  height: 100%;
 }
 
 .wrapper {
   display: block;
   margin-top: 2%;
   height: 100%;
-}
-
-h1 {
-  padding: 2%;
-  color: white;
-  background-color: teal;
-  margin-top: 0;
-  margin-bottom: 2px;
-
-  font-size: 3em;
 }
 
 h2 {
@@ -75,16 +102,6 @@ footer {
   justify-content: center;
   font-weight: bold;
   font-size: 2.5em;
-}
-
-.menufooter {
-  width: 100%;
-  background-color: teal;
-  height: 80px;
-}
-
-.main {
-  height: 100%;
 }
 
 .congrats {

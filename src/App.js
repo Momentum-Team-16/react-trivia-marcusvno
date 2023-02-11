@@ -15,8 +15,8 @@ function App() {
 
 
   return (
-    <div>
-      <h1>{title}</h1>
+    <div className="container">
+      <h1 className="title-header">{title}</h1>
         <div className="main">
           <QuizGame
             setTitle={setTitle}
@@ -137,7 +137,8 @@ function QuestionList({setTitle, setPlaying, currentQuestion, currentScore, setS
         currentScore={currentScore} 
         setScore={setScore}
         setSelectedCategory={setSelectedCategory}
-        setPlaying={setPlaying}/>
+        setPlaying={setPlaying}
+        setEnd={setEnd}/>
     )
   }
 
@@ -156,18 +157,19 @@ function QuestionList({setTitle, setPlaying, currentQuestion, currentScore, setS
 
 }
 
-function QuizEnd({setTitle, currentScore, setSelectedCategory, setScore, setPlaying}){
+function QuizEnd({setTitle, currentScore, setSelectedCategory, setScore, setPlaying, setEnd}){
 
   const handleClick = () => {
     setTitle("Trivia Bonanza!")
     setSelectedCategory(null)
     setScore(0)
     setPlaying(null);
+    setEnd(false);
   }
 
   return(
     <div>
-      <h1 className="congrats">Congraulations!</h1>
+      <h1 className="congrats">Congratulations!</h1>
       <h1 className="endscore">You Scored: {currentScore}!</h1>
       <div className="playagain">
         <button className="category-answer playagain" onClick={handleClick}>Play Again?</button>

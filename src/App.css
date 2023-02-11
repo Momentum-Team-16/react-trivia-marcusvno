@@ -32,6 +32,8 @@
   justify-content: center;
   align-content: center;
   flex-wrap: wrap;
+  margin-bottom: 40px;
+  margin-top: 15px;
 }
 
 .wrapper {
@@ -45,6 +47,7 @@ h1 {
   color: white;
   background-color: teal;
   margin-top: 0;
+  margin-bottom: 2px;
 
   font-size: 3em;
 }
@@ -52,12 +55,14 @@ h1 {
 h2 {
   color: teal;
   font-size: 1.7em;
+  padding-left: 4%;
+  padding-right: 4%;
 }
 
 footer {
   width: 100%;
   background-color: teal;
-  height: 100px;
+  height: 80px;
   position: absolute;
   left: 0;
   bottom: 0;
@@ -72,9 +77,14 @@ footer {
   font-size: 2.5em;
 }
 
+.menufooter {
+  width: 100%;
+  background-color: teal;
+  height: 80px;
+}
+
 .main {
-  overflow-y: scroll;
-  max-height: 80%;
+  height: 100%;
 }
 
 .congrats {

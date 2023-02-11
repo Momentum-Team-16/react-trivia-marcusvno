@@ -1,7 +1,7 @@
 import './App.css';
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import he, {decode} from "he";
+import he from "he";
 import shuffle from "lodash/shuffle";
 
 
@@ -9,27 +9,29 @@ function App() {
   const [isPlaying, setPlaying] = useState(null);
   const [title, setTitle] = useState(["Trivia Bonanza!"]);
   const [currentScore, setCurrentScore] = useState(0);
-//  const [triviaGame, setTriviaGame] = useState(["Trivia Bonanza!"]);
+  const [isEnd, setEnd] = useState(false);
+
 
 
 
   return (
     <div>
       <h1>{title}</h1>
-      <div className="main">
-        <QuizGame 
-          setTitle={setTitle}
-          setPlaying={setPlaying}
-          currentScore={currentScore}
-          setCurrentScore={setCurrentScore}/>
-      </div>    
+        <div className="main">
+          <QuizGame
+            setTitle={setTitle}
+            setPlaying={setPlaying}
+            currentScore={currentScore}
+            setCurrentScore={setCurrentScore}
+            setEnd={setEnd}/>
+      </div>
       
-      <footer>{isPlaying ? (`Score: ${currentScore}`) : null}</footer>
+      {isPlaying ? <footer> { isEnd ? null : `Score: ${currentScore}`} </footer> : <div className="menufooter"/>}
     </div>
   );
 }
 
-function QuizGame({setTitle, setPlaying, currentScore, setCurrentScore}){
+function QuizGame({setTitle, setPlaying, currentScore, setCurrentScore, setEnd}){
 
   const [triviaCategories, setTriviaCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -57,6 +59,7 @@ function QuizGame({setTitle, setPlaying, currentScore, setCurrentScore}){
         setScore={setCurrentScore}
         setSelectedCategory={setSelectedCategory}
         setPlaying={setPlaying}
+        setEnd={setEnd}
       />
     )
   }
@@ -74,7 +77,7 @@ function QuizGame({setTitle, setPlaying, currentScore, setCurrentScore}){
 
 }
 
-function TriviaQuestions({setTitle, selectedCategory, currentScore, setScore, setSelectedCategory, setPlaying}){
+function TriviaQuestions({setTitle, selectedCategory, currentScore, setScore, setSelectedCategory, setPlaying, setEnd}){
   const [currentQuestion, setCurrentQuestion] = useState([])
   const [questionIndex, setQuestionIndex] = useState(0)
   
@@ -102,7 +105,8 @@ function TriviaQuestions({setTitle, selectedCategory, currentScore, setScore, se
         questionIndex={questionIndex}
         setQuestionIndex={setQuestionIndex}
         setSelectedCategory={setSelectedCategory}
-        setPlaying={setPlaying}/>
+        setPlaying={setPlaying}
+        setEnd={setEnd}/>
 
     )
   )
@@ -112,7 +116,7 @@ function TriviaQuestions({setTitle, selectedCategory, currentScore, setScore, se
 
 }
 
-function QuestionList({setTitle, setPlaying, currentQuestion, currentScore, setScore, questionIndex, setQuestionIndex, setSelectedCategory} ){
+function QuestionList({setTitle, setPlaying, currentQuestion, currentScore, setScore, questionIndex, setQuestionIndex, setSelectedCategory, setEnd} ){
 
   // console.log(setSelectedCategory)
 
@@ -125,13 +129,15 @@ function QuestionList({setTitle, setPlaying, currentQuestion, currentScore, setS
   }
 
   if(questionIndex > currentQuestion.length-1){
-    setPlaying(null);
+    setEnd(true);
+    
     return (
       <QuizEnd 
         setTitle={setTitle}
         currentScore={currentScore} 
         setScore={setScore}
-        setSelectedCategory={setSelectedCategory}/>
+        setSelectedCategory={setSelectedCategory}
+        setPlaying={setPlaying}/>
     )
   }
 
@@ -139,7 +145,7 @@ function QuestionList({setTitle, setPlaying, currentQuestion, currentScore, setS
     <div className="quizzing">
       <div>
         <h2 key={questionIndex}>{currentQuestion[questionIndex].question}</h2>
-        <div className="answer-order">
+        <div className="grid">
           {currentQuestion[questionIndex].answers.map((a) =>(
             <div className="category-answer" onClick={()=>{handleClick(a)}}>{he.decode(a)}</div>
           ) )}
@@ -150,12 +156,13 @@ function QuestionList({setTitle, setPlaying, currentQuestion, currentScore, setS
 
 }
 
-function QuizEnd({setTitle, currentScore, setSelectedCategory, setScore}){
+function QuizEnd({setTitle, currentScore, setSelectedCategory, setScore, setPlaying}){
 
   const handleClick = () => {
-    setTitle("Trivia Bonzana!")
+    setTitle("Trivia Bonanza!")
     setSelectedCategory(null)
     setScore(0)
+    setPlaying(null);
   }
 
   return(

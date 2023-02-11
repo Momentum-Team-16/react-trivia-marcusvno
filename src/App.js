@@ -9,7 +9,6 @@ function App() {
   const [isPlaying, setPlaying] = useState(null);
   const [title, setTitle] = useState(["Trivia Bonanza!"]);
   const [currentScore, setCurrentScore] = useState(0);
-  const [isEnd, setEnd] = useState(false);
 
 
 
@@ -22,18 +21,15 @@ function App() {
             setTitle={setTitle}
             setPlaying={setPlaying}
             currentScore={currentScore}
-            setCurrentScore={setCurrentScore}
-            setEnd={setEnd}/>
+            setCurrentScore={setCurrentScore}/>
         </div>
       
       <footer className="footer">{isPlaying ? `Score: ${currentScore}` : null} </footer>
-
-      {/* {isPlaying ? <footer className="footer"> { isEnd ? null : `Score: ${currentScore}`} </footer> : <div className="footer"/>} */}
     </div>
   );
 }
 
-function QuizGame({setTitle, setPlaying, currentScore, setCurrentScore, setEnd}){
+function QuizGame({setTitle, setPlaying, currentScore, setCurrentScore}){
 
   const [triviaCategories, setTriviaCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -61,7 +57,6 @@ function QuizGame({setTitle, setPlaying, currentScore, setCurrentScore, setEnd})
         setScore={setCurrentScore}
         setSelectedCategory={setSelectedCategory}
         setPlaying={setPlaying}
-        setEnd={setEnd}
       />
     )
   }
@@ -79,7 +74,7 @@ function QuizGame({setTitle, setPlaying, currentScore, setCurrentScore, setEnd})
 
 }
 
-function TriviaQuestions({setTitle, selectedCategory, currentScore, setScore, setSelectedCategory, setPlaying, setEnd}){
+function TriviaQuestions({setTitle, selectedCategory, currentScore, setScore, setSelectedCategory, setPlaying}){
   const [currentQuestion, setCurrentQuestion] = useState([])
   const [questionIndex, setQuestionIndex] = useState(0)
   
@@ -107,8 +102,7 @@ function TriviaQuestions({setTitle, selectedCategory, currentScore, setScore, se
         questionIndex={questionIndex}
         setQuestionIndex={setQuestionIndex}
         setSelectedCategory={setSelectedCategory}
-        setPlaying={setPlaying}
-        setEnd={setEnd}/>
+        setPlaying={setPlaying}/>
 
     )
   )
@@ -118,7 +112,7 @@ function TriviaQuestions({setTitle, selectedCategory, currentScore, setScore, se
 
 }
 
-function QuestionList({setTitle, setPlaying, currentQuestion, currentScore, setScore, questionIndex, setQuestionIndex, setSelectedCategory, setEnd} ){
+function QuestionList({setTitle, setPlaying, currentQuestion, currentScore, setScore, questionIndex, setQuestionIndex, setSelectedCategory} ){
 
   // console.log(setSelectedCategory)
 
@@ -131,7 +125,7 @@ function QuestionList({setTitle, setPlaying, currentQuestion, currentScore, setS
   }
 
   if(questionIndex > currentQuestion.length-1){
-    setEnd(true);
+
     
     return (
       <QuizEnd 
@@ -140,7 +134,7 @@ function QuestionList({setTitle, setPlaying, currentQuestion, currentScore, setS
         setScore={setScore}
         setSelectedCategory={setSelectedCategory}
         setPlaying={setPlaying}
-        setEnd={setEnd}/>
+      />
     )
   }
 
@@ -159,14 +153,13 @@ function QuestionList({setTitle, setPlaying, currentQuestion, currentScore, setS
 
 }
 
-function QuizEnd({setTitle, currentScore, setSelectedCategory, setScore, setPlaying, setEnd}){
+function QuizEnd({setTitle, currentScore, setSelectedCategory, setScore, setPlaying}){
 
   const handleClick = () => {
     setTitle("Trivia Bonanza!")
     setSelectedCategory(null)
     setScore(0)
     setPlaying(null);
-    setEnd(false);
   }
 
   return(

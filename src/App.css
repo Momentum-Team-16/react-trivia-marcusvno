@@ -9,6 +9,12 @@ body {
   text-align: center;
 }
 
+.flex-wrapper {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: flex-start;
+}
 h1 {
   padding: 25px;
   color: white;
@@ -18,26 +24,62 @@ h1 {
   max-height: 2em;
   font-size: 3em;
 }
-/* .container {
+
+.footer {
+  margin-top: auto;
+  width: 100%;
+  background-color: teal;
+  height: 80px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 2.5em;
+}
+
+/* footer {
+  width: 100%;
+  background-color: teal;
+  height: 80px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 2.5em;
+} */
+
+/*  .container {
   min-height: 100%;
   position: relative;
-} */
-/* .title-header {
+} 
+ .title-header {
   background:#ff0;
   padding:10px;
-} */
+} 
 .main {
   padding: 10px;
-  padding-bottom: 80px; /* Height of the footer */
+  padding-bottom: 80px; /* Height of the footer */ /*
 }
+
 .menufooter {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 80px; /* Height of the footer */
   background: teal;
-}
-
+  height: 80px; /* Height of the footer */
+/*  
+} 
+*/
 .category-button {
   padding: 0.5rem 0.5rem;
   width: 18rem;
@@ -84,24 +126,6 @@ h2 {
   font-size: 1.7em;
   padding-left: 4%;
   padding-right: 4%;
-}
-
-footer {
-  width: 100%;
-  background-color: teal;
-  height: 80px;
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  color: white;
-  font-weight: bold;
-  text-align: center;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 2.5em;
 }
 
 .congrats {
